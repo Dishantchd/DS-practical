@@ -1,107 +1,103 @@
-Data Science Practical 9 – Iris Classification Using K-Nearest Neighbors (KNN)
-Overview
-This practical implements the K-Nearest Neighbors (KNN) classification algorithm on the Iris dataset (iris.csv). The notebook explores the dataset, scales the features, trains a baseline KNN model (K=5), evaluates it using a confusion matrix and classification report, tunes the optimal K value (K=13) using an error-rate curve, and visualizes the 2D decision boundary.
+# KNN Classification on Iris Dataset (Practical 9)
 
-Objectives
-Load and inspect the Iris dataset using Pandas (head(), info(), describe(), and groupby()).
+A complete end-to-end implementation of the **K-Nearest Neighbors (KNN)** algorithm for multi-class classification using the classic Iris dataset. This notebook demonstrates data exploration, preprocessing, model training, hyperparameter tuning (optimal K selection), evaluation, and decision boundary visualization.
 
-Split the dataset into stratified training (80%) and testing (20%) sets.
+## 📋 Overview
 
-Scale numerical features using StandardScaler.
+- **Algorithm**: K-Nearest Neighbors Classifier (`sklearn.neighbors.KNeighborsClassifier`)
+- **Dataset**: Iris (150 samples, 4 features, 3 classes)
+- **Key Steps**:
+  1. Exploratory Data Analysis
+  2. Feature scaling with `StandardScaler`
+  3. Train-test split (80/20, stratified)
+  4. KNN model with Euclidean distance
+  5. Confusion matrix & classification report
+  6. Error rate analysis across K = 1 to 30
+  7. Selection of optimal K
+  8. Final model evaluation
+  9. 2D decision boundary visualization (using petal length & petal width)
 
-Train a baseline KNeighborsClassifier (K=5, Euclidean distance) and evaluate its accuracy.
+## 📊 Dataset
 
-Visualize model performance using a Seaborn confusion matrix heatmap and classification_report.
+The Iris dataset contains 150 samples of iris flowers with the following features:
 
-Test K values from 1 to 30 and plot the Error Rate vs K Value curve.
+| Feature        | Description              |
+|----------------|--------------------------|
+| `sepal_length` | Sepal length (cm)        |
+| `sepal_width`  | Sepal width (cm)         |
+| `petal_length` | Petal length (cm)        |
+| `petal_width`  | Petal width (cm)         |
+| `species`      | Target class (setosa, versicolor, virginica) |
 
-Select the best odd K value (K=13) to improve test accuracy from 93.33% to 96.67%.
+**Class distribution**: 50 samples each of setosa, versicolor, and virginica.
 
-Train a 2-feature KNN model (petal_length, petal_width) and plot its decision boundary on the test set.
+## 🛠️ Requirements
 
-Tools and Libraries
-Python
+```bash
+numpy
+pandas
+matplotlib
+seaborn
+scikit-learn
 
-Google Colab
 
-Pandas – for loading and exploring tabular data.
-
-NumPy – for numerical arrays, meshgrids, and error-rate calculations.
-
-Matplotlib – for plotting the error-rate curve and decision boundary.
-
-Seaborn – for plotting the confusion matrix heatmap.
-
-Scikit-learn – for train-test splitting, feature scaling, KNN modeling, and evaluation metrics.
-
-Dataset
-The notebook uses iris.csv, containing 150 rows and 5 columns (with no missing values) across three iris species (setosa, versicolor, virginica):
-
-sepal_length
-
-sepal_width
-
-petal_length
-
-petal_width
-
-species
-
-Make sure iris.csv is available before running the notebook. Upload the CSV file to your Colab session or update the dataset-loading cell with the correct local path or raw GitHub URL.
-
-Important: The notebook currently loads the dataset from /content/iris.csv. Replace this path if your file is stored in a different location before running that cell.
-
-Practical Work
-The notebook covers these steps:
-
-Import numpy, pandas, matplotlib, and scikit-learn modules.
-
-Load /content/iris.csv and inspect it with head(), info(), describe(), and groupby("species").mean().
-
-Separate features (X) and target labels (y), then split into 80/20 stratified train and test sets (random_state=42).
-
-Standardize X_train and X_test using StandardScaler.
-
-Train a baseline KNeighborsClassifier(n_neighbors=5, metric="minkowski", p=2) and evaluate it (Accuracy: 0.9333).
-
-Plot the confusion matrix heatmap using Seaborn and print the classification_report.
-
-Loop through K from 1 to 30, record the error rate for each value, and plot Error Rate vs K Value.
-
-Identify the K values achieving the minimum error rate (0.0333), choose the middle odd value (Chosen best K: 13), and retrain final_model (Final Accuracy: 0.9667).
-
-Train knn2 (K=13) on scaled petal_length and petal_width and plot the KNN (K=13) - Test Set Result decision boundary.
-
-Requirements
-Install the required packages if they are not already available:
-
-Bash
+Install with:
 pip install numpy pandas matplotlib seaborn scikit-learn
-Google Colab usually includes all of these libraries by default.
+
 
 How to Run
-Using Google Colab
-Open KNN_Practical9.ipynb in Google Colab.
+Option 1: Google Colab (Recommended)
+Open the notebook in [Google Colab](https://colab.research.google.com/).
+Upload iris.csv or load it from the provided path.
+Run all cells sequentially.
+Option 2: Local Jupyter Notebook
+Clone this repository.
+Place iris.csv in the working directory.
+Open the notebook and run all cells.
+📈 Key Results
+Initial Model (K = 5)
+Accuracy: 0.9333
+Confusion Matrix:
+Text
+[[10  0  0]
+ [ 0 10  0]
+ [ 0  2  8]]
+Hyperparameter Tuning (K = 1 to 30)
+Error rates were computed for every value of K.
+Minimum error rate: ~0.0333
+Best K values: Multiple (including 1, 7, 9, 10, 11, 12, 13, 15, 16, 17, 18, 19, 20, 21)
+Selected K: 13 (odd value preferred for tie-breaking)
+Final Model (K = 13)
+Accuracy: 0.9667
+2-Feature Visualization
+A decision boundary plot was generated using only petal_length and petal_width with the optimal K, clearly showing the separation between the three iris species.
 
-Upload iris.csv to /content/iris.csv (or update the path in the data-loading cell).
+📁 Project Structure
+Text
+├── KNN_Practical9.ipynb   # Main notebook
+├── iris.csv               # Dataset (if provided)
+└── README.md              # This file
+🔍 Methodology Highlights
+Data Preprocessing
 
-Run the notebook cells from top to bottom.
+Stratified train-test split to maintain class balance
+Feature standardization (critical for distance-based algorithms like KNN)
+Model Training
 
-Using Jupyter Notebook locally
-Clone or download this repository.
+Distance metric: Minkowski with p=2 (Euclidean)
+Hyperparameter search over a wide range of K values
+Evaluation
 
-Install the required packages.
+Confusion matrix heatmap
+Classification report (precision, recall, F1-score)
+Error rate vs K plot to identify the elbow / optimal region
+Visualization
 
-Place iris.csv in your working directory and update the file path in the data-loading cell if needed.
-
-Open KNN_Practical9.ipynb in Jupyter Notebook or JupyterLab.
-
-Run the cells from top to bottom.
-
-Repository File
-KNN_Practical9.ipynb – Google Colab/Jupyter notebook containing the KNN classification practical.
-
-Author
-Dishant Chaudhary
-
-BTech – Computer Science and Engineering (Data Science)
+Decision regions for the two most discriminative features (petal length & width)
+📝 Notes
+The optimal K was chosen as an odd number among the best-performing values to avoid ties in majority voting.
+Using only petal features still yields strong class separation, confirming their high discriminative power.
+Scaling is essential — without it, features with larger ranges would dominate the distance calculations.
+👤 Author
+Practical 9 – Machine Learning Lab
+KNN Classifier Implementation
